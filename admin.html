@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+</head>
+<body>
+
+<h1>ADMIN</h1>
+
+
+<form>
+   <textarea id="message"></textarea>
+</form>
+<button  class="btn btn-default"  id="button"> SEND </button>
+
+<input type="range" id="ballon" max="100" min="0"></input>
+
+<h2 id="ballon"></h2>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+
+document.getElementById("button").addEventListener('click', function(){
+	socket.emit('message', document.getElementById("message").value);
+});
+
+document.getElementById("ballon").addEventListener('input', function(){
+	socket.emit('position', document.getElementById("ballon").value);
+});
+	var socket = io();
+
+	socket.on('position', function (pos){
+		document.getElementById("ballon").value = pos;
+	});
+
+	socket.on('input', function (input){
+		document.getElementById("ballon").value = input.pop();
+	});
+
+</script>
+
+</body>
+</html>

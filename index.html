@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+</head>
+<body>
+
+<h1> Rugby </h1>
+
+<input type="range" id="ballon" max="100" min="0"></input>
+
+<ul id="history">
+
+</ul>
+
+<div id="message">
+
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+	var socket = io();
+
+	socket.on('message', function (body){
+		document.getElementById("message").innerHTML =  "<p>" + body + "</p>" + document.getElementById("message").innerHTML;
+	});
+
+	socket.on('position', function (pos){
+		document.getElementById("ballon").value = pos;
+	});
+
+	socket.on('input', function (input){
+		document.getElementById("ballon").value = input.pop();
+	});
+
+	socket.on('history', function (history){
+		for(i = 0; i < history.length; i++)
+		{
+			document.getElementById("history").innerHTML = '<li>' + history[i]+ '</li>' + document.getElementById("history").innerHTML;
+		}
+	});
+
+
+</script>
+
+
+</body>
+</html>
